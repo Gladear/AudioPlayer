@@ -14,7 +14,6 @@ const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 class MainActivity : AppCompatActivity(), AudioControlFragment.OnFragmentInteractionListener {
 
     private var binding: ActivityMainBinding? = null
-    private var audioFileListFragment: AudioFileListFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
