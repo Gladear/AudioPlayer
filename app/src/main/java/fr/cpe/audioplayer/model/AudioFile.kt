@@ -13,7 +13,7 @@ data class AudioFile(
 ) {
     val durationText: String
         get() {
-            val seconds  = duration % 60
+            val seconds = duration % 60
             val durationInMinutes = (duration - seconds) / 60
             val minutes = durationInMinutes % 60
             val hours = (durationInMinutes - minutes) / 60

@@ -4,7 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import fr.cpe.audioplayer.model.AudioFile
 
-class AudioFileViewModel: BaseObservable() {
+class AudioFileViewModel : BaseObservable() {
     var audioFile: AudioFile? = null
         set(value) {
             field = value
