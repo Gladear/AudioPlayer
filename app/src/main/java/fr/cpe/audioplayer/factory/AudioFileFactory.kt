@@ -6,7 +6,7 @@ import fr.cpe.audioplayer.model.AudioFile
 
 class AudioFileFactory {
     companion object {
-        fun getAudioFileList(context: Context): List<AudioFile> {
+        fun getAudioFiles(context: Context): Sequence<AudioFile> {
             val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
             val projection = arrayOf(
                 MediaStore.Audio.Media.DATA,
@@ -15,30 +15,29 @@ class AudioFileFactory {
                 MediaStore.Audio.Media.ARTIST
             )
 
-            val cursor = context.contentResolver.query(uri, projection, null, null, null)
-            val audioFiles = ArrayList<AudioFile>()
+            return sequence {
+                val cursor = context.contentResolver.query(uri, projection, null, null, null)
 
-            cursor?.let {
-                while (it.moveToNext()) {
-                    val filepath = it.getString(0)
-                    val title = it.getString(1)
-                    val album = it.getString(2)
-                    val artist = it.getString(3)
+                cursor?.let {
+                    while (it.moveToNext()) {
+                        val filepath = it.getString(0)
+                        val title = it.getString(1)
+                        val album = it.getString(2)
+                        val artist = it.getString(3)
 
-                    audioFiles.add(
-                        AudioFile(
-                            filepath,
-                            title,
-                            album,
-                            artist
+                        yield(
+                            AudioFile(
+                                filepath,
+                                title,
+                                album,
+                                artist
+                            )
                         )
-                    )
+                    }
+
+                    it.close()
                 }
-
-                it.close()
             }
-
-            return audioFiles
         }
     }
 }

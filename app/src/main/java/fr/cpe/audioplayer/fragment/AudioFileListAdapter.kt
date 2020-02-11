@@ -36,11 +36,11 @@ class AudioFileListAdapter : RecyclerView.Adapter<AudioFileListAdapter.ViewHolde
         return audioFileList.size
     }
 
-    fun addAll(files: Collection<AudioFile>): Boolean {
+    fun add(file: AudioFile): Boolean {
         val size = audioFileList.size
-        val result = audioFileList.addAll(files)
+        val result = audioFileList.add(file)
 
-        notifyItemRangeInserted(size, files.size)
+        notifyItemInserted(size)
         return result
     }
 
