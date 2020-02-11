@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.cpe.audioplayer.R
-import fr.cpe.audioplayer.databinding.AudioFileListFragmentBinding
+import fr.cpe.audioplayer.databinding.FragmentAudioFileListBinding
 import fr.cpe.audioplayer.model.AudioFile
 
 class AudioFileListFragment : Fragment() {
@@ -17,7 +17,7 @@ class AudioFileListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: AudioFileListFragmentBinding =
+        val binding: FragmentAudioFileListBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_audio_file_list, container, false)
         binding.audioFileList.layoutManager = LinearLayoutManager(binding.root.context)
 
