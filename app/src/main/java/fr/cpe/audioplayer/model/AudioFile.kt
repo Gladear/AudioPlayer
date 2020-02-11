@@ -3,13 +3,14 @@ package fr.cpe.audioplayer.model
 import java.util.*
 
 data class AudioFile(
-    val title: String,
     val filePath: String,
+    val title: String,
     val artist: String,
     val album: String,
-    val genre: String,
-    val year: Int,
-    val duration: Int
+    val duration: Int = 0,
+    val genre: String = "",
+    val year: Int = 0
+
 ) {
     val durationText: String
         get() {
