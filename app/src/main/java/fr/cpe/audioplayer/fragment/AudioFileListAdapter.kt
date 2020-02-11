@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.cpe.audioplayer.R
 import fr.cpe.audioplayer.databinding.AudioFileItemBinding
 import fr.cpe.audioplayer.model.AudioFile
+import fr.cpe.audioplayer.viewmodel.AudioFileViewModel
 
-class AudioFileListAdapter(val audioFileList: List<AudioFile>): RecyclerView.Adapter<AudioFileListAdapter.ViewHolder>() {
+class AudioFileListAdapter(private val audioFileList: List<AudioFile>) :
+    RecyclerView.Adapter<AudioFileListAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -25,15 +27,20 @@ class AudioFileListAdapter(val audioFileList: List<AudioFile>): RecyclerView.Ada
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val file = audioFileList[position]
-        holder.binding.title.text = file.title
-        holder.binding.artist.text = file.artist
-        holder.binding.album.text = file.album
-        holder.binding.duration.text = file.durationText
+        holder.viewModel.audioFile = file
     }
 
     override fun getItemCount(): Int {
         return audioFileList.size
     }
 
-    inner class ViewHolder(val binding: AudioFileItemBinding): RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(binding: AudioFileItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        val viewModel = AudioFileViewModel()
+
+        init {
+            binding.model = viewModel
+        }
+    }
 }

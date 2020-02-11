@@ -2,7 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data />
+    <data>
+        <variable
+            name="model"
+            type="fr.cpe.audioplayer.viewmodel.AudioFileViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -12,6 +16,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@{model.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@id/album"
             app:layout_constraintEnd_toStartOf="@id/duration"
@@ -22,6 +27,7 @@
             android:id="@+id/album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{model.album}"
             app:layout_constraintBottom_toTopOf="@id/separator"
             app:layout_constraintEnd_toStartOf="@id/dummy"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,6 +47,7 @@
             android:id="@+id/artist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="@{model.artist}"
             app:layout_constraintBottom_toTopOf="@id/separator"
             app:layout_constraintEnd_toStartOf="@id/duration"
             app:layout_constraintStart_toEndOf="@id/dummy"
@@ -50,6 +57,7 @@
             android:id="@+id/duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{model.duration}"
             app:layout_constraintBottom_toTopOf="@id/separator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
