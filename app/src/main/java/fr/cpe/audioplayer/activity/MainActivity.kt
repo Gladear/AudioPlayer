@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import fr.cpe.audioplayer.R
 import fr.cpe.audioplayer.databinding.ActivityMainBinding
-import fr.cpe.audioplayer.fragment.AudioControlFragment
+import fr.cpe.audioplayer.fragment.TrackControlFragment
 import fr.cpe.audioplayer.fragment.AudioFileListFragment
 import fr.cpe.audioplayer.model.TrackAction
 
 const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
-class MainActivity : AppCompatActivity(), AudioControlFragment.OnFragmentInteractionListener {
+class MainActivity : AppCompatActivity(), TrackControlFragment.OnFragmentInteractionListener {
 
     private var binding: ActivityMainBinding? = null
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity(), AudioControlFragment.OnFragmentInterac
         val transaction = supportFragmentManager.beginTransaction()
 
         transaction.replace(R.id.audio_list_fragment_container, AudioFileListFragment())
-        transaction.replace(R.id.audio_control_fragment_container, AudioControlFragment())
+        transaction.replace(R.id.track_control_fragment_container, TrackControlFragment())
         transaction.commit()
 
     }

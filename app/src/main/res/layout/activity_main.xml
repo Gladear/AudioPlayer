@@ -12,13 +12,13 @@
             android:id="@+id/audio_list_fragment_container"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/audio_control_fragment_container"
+            app:layout_constraintBottom_toTopOf="@+id/track_control_fragment_container"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <FrameLayout
-            android:id="@+id/audio_control_fragment_container"
+            android:id="@+id/track_control_fragment_container"
             android:layout_width="0dp"
             android:layout_height="@dimen/audio_control_bar_height"
             app:layout_constraintBottom_toBottomOf="parent"

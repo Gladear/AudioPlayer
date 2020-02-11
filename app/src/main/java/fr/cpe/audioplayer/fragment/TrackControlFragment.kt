@@ -13,10 +13,10 @@ import fr.cpe.audioplayer.model.TrackAction
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [AudioControlFragment.OnFragmentInteractionListener] interface
+ * [TrackControlFragment.OnFragmentInteractionListener] interface
  * to handle interaction events.
  */
-class AudioControlFragment : Fragment() {
+class TrackControlFragment : Fragment() {
     private var listener: OnFragmentInteractionListener? = null
     var playing = false
 
@@ -25,7 +25,7 @@ class AudioControlFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_audio_control, container, false)
+        val view = inflater.inflate(R.layout.fragment_track_control, container, false)
 
         // Add listeners to buttons
         view.findViewById<ImageButton>(R.id.previous_track).setOnClickListener {
