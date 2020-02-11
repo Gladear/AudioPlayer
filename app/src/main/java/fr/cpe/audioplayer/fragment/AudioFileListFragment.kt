@@ -60,6 +60,7 @@ class AudioFileListFragment : Fragment() {
                         // Do nothing
                     }
                     .create()
+                    .show()
             } else {
                 // No explanation needed, we can request the permission.
                 requestPermissions(
