@@ -2,12 +2,9 @@ package fr.cpe.audioplayer.activity
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import fr.cpe.audioplayer.R
 import fr.cpe.audioplayer.databinding.ActivityMainBinding
