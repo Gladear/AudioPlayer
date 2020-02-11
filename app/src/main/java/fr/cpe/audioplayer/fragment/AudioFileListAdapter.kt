@@ -9,8 +9,10 @@ import fr.cpe.audioplayer.databinding.AudioFileItemBinding
 import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.viewmodel.AudioFileViewModel
 
-class AudioFileListAdapter(private val audioFileList: List<AudioFile>) :
-    RecyclerView.Adapter<AudioFileListAdapter.ViewHolder>() {
+class AudioFileListAdapter : RecyclerView.Adapter<AudioFileListAdapter.ViewHolder>() {
+
+    private val audioFileList: ArrayList<AudioFile> = ArrayList()
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -32,6 +34,14 @@ class AudioFileListAdapter(private val audioFileList: List<AudioFile>) :
 
     override fun getItemCount(): Int {
         return audioFileList.size
+    }
+
+    fun addAll(files: Collection<AudioFile>): Boolean {
+        val size = audioFileList.size
+        val result = audioFileList.addAll(files)
+
+        notifyItemRangeInserted(size, files.size)
+        return result
     }
 
     inner class ViewHolder(binding: AudioFileItemBinding) :

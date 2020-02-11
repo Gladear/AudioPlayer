@@ -1,12 +1,12 @@
 package fr.cpe.audioplayer.factory
 
-import android.app.Activity
+import android.content.Context
 import android.provider.MediaStore
 import fr.cpe.audioplayer.model.AudioFile
 
 class AudioFileFactory {
     companion object {
-        fun getAudioFileList(activity: Activity): List<AudioFile> {
+        fun getAudioFileList(context: Context): List<AudioFile> {
             val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
             val projection = arrayOf(
                 MediaStore.Audio.Media.DATA,
@@ -15,7 +15,7 @@ class AudioFileFactory {
                 MediaStore.Audio.Media.ARTIST
             )
 
-            val cursor = activity.contentResolver.query(uri, projection, null, null, null)
+            val cursor = context.contentResolver.query(uri, projection, null, null, null)
             val audioFiles = ArrayList<AudioFile>()
 
             cursor?.let {
