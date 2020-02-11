@@ -1,8 +1,9 @@
-package fr.cpe.audioplayer
+package fr.cpe.audioplayer.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import fr.cpe.audioplayer.R
 import fr.cpe.audioplayer.databinding.ActivityMainBinding
 import fr.cpe.audioplayer.fragment.AudioFileListFragment
 
@@ -12,7 +13,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(
+            this,
+            R.layout.activity_main
+        )
 
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
