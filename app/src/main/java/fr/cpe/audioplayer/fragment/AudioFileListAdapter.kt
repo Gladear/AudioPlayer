@@ -17,12 +17,12 @@ class AudioFileListAdapter : RecyclerView.Adapter<AudioFileListAdapter.ViewHolde
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = DataBindingUtil.inflate(
+        val binding: AudioFileItemBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.audio_file_item,
             parent,
             false
-        ) as AudioFileItemBinding
+        )
 
         return ViewHolder(binding)
     }

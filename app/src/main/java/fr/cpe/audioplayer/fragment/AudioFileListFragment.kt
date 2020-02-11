@@ -25,7 +25,12 @@ class AudioFileListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding: FragmentAudioFileListBinding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_audio_file_list, container, false)
+            DataBindingUtil.inflate(
+                inflater,
+                R.layout.fragment_audio_file_list,
+                container,
+                false
+            )
 
         val audioFileList = binding.audioFileList
         audioFileList.layoutManager = LinearLayoutManager(binding.root.context)
