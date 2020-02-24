@@ -6,18 +6,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import fr.cpe.audioplayer.R
+import fr.cpe.audioplayer.databinding.FragmentTrackControlBinding
+import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.model.TrackAction
+import fr.cpe.audioplayer.viewmodel.AudioFileViewModel
 
 /**
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
- * [TrackControlFragment.OnFragmentInteractionListener] interface
+ * [TrackControlFragment.OnTrackControlInteractionListener] interface
  * to handle interaction events.
  */
 class TrackControlFragment : Fragment() {
-    private var listener: OnFragmentInteractionListener? = null
+    private var binding: FragmentTrackControlBinding? = null
+    private var listener: OnTrackControlInteractionListener? = null
+
+    var track: AudioFile? = null
+        set(value) {
+            field = value
+            binding!!.track!!.audioFile = value
+        }
     var playing = false
 
     override fun onCreateView(
@@ -25,20 +36,24 @@ class TrackControlFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_track_control, container, false)
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_track_control, container, false)
+        binding!!.track = AudioFileViewModel()
+
+        val view = binding!!.frameLayout
 
         // Add listeners to buttons
         view.findViewById<ImageButton>(R.id.previous_track).setOnClickListener {
-            listener?.onFragmentInteraction(TrackAction.PREV)
+            listener?.onTrackControlInteraction(TrackAction.PREV)
         }
 
         view.findViewById<ImageButton>(R.id.next_track).setOnClickListener {
-            listener?.onFragmentInteraction(TrackAction.NEXT)
+            listener?.onTrackControlInteraction(TrackAction.NEXT)
         }
 
         view.findViewById<ImageButton>(R.id.play_pause_track).setOnClickListener {
-            listener?.onFragmentInteraction(
-                if (playing) TrackAction.PAUSE
+            listener?.onTrackControlInteraction(
+                if (track != null && playing) TrackAction.PAUSE
                 else TrackAction.PLAY
             )
         }
@@ -48,10 +63,10 @@ class TrackControlFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
+        if (context is OnTrackControlInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnTrackControlInteractionListener")
         }
     }
 
@@ -66,7 +81,7 @@ class TrackControlFragment : Fragment() {
      * to the activity and potentially other fragments contained in that
      * activity.
      */
-    interface OnFragmentInteractionListener {
-        fun onFragmentInteraction(action: TrackAction)
+    interface OnTrackControlInteractionListener {
+        fun onTrackControlInteraction(action: TrackAction)
     }
 }

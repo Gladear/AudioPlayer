@@ -2,6 +2,7 @@ package fr.cpe.audioplayer.fragment
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -39,6 +40,20 @@ class AudioFileListFragment : Fragment() {
         loadAudioFiles()
 
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is AudioFileListAdapter.OnAudioFileInteractionListener) {
+            adapter.listener = context
+        } else {
+            throw RuntimeException("$context must implement AudioFileListAdapter.OnAudioFileInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        adapter.listener = null
     }
 
     private fun loadAudioFiles() {

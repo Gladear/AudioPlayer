@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="model"
+            name="track"
             type="fr.cpe.audioplayer.viewmodel.AudioFileViewModel" />
     </data>
 
@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="@{model.title}"
+            android:text="@{track.title}"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintBottom_toTopOf="@id/album"
             app:layout_constraintEnd_toStartOf="@id/duration"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="@{model.album}"
+            android:text="@{track.album}"
             app:layout_constraintBottom_toTopOf="@id/separator"
             app:layout_constraintEnd_toStartOf="@id/dummy"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="@{model.artist}"
+            android:text="@{track.artist}"
             app:layout_constraintBottom_toTopOf="@id/separator"
             app:layout_constraintEnd_toStartOf="@id/duration"
             app:layout_constraintStart_toEndOf="@id/dummy"
@@ -61,7 +61,7 @@
             android:id="@+id/duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{model.duration}"
+            android:text="@{track.duration}"
             app:layout_constraintBottom_toTopOf="@id/separator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
