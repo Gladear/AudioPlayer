@@ -8,6 +8,9 @@
     <string name="dialog_permission_read_external_storage_negative">Disagree</string>
 
     <!-- # Activity / Fragments -->
+    <!-- ## MainActivity   -->
+    <string name="error_start_service">Unable to start the audio player</string>
+
     <!-- ## Track control fragment -->
     <string name="previous_track_description">Previous</string>
     <string name="pause_track_description">Pause</string>

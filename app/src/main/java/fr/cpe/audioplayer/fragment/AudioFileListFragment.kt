@@ -96,7 +96,6 @@ class AudioFileListFragment : Fragment() {
             // Permission has already been granted
             // Do file-related operations
 
-
             val audioFiles = AudioFileFactory.getAudioFiles(context!!)
 
             for (audioFile in audioFiles) {
