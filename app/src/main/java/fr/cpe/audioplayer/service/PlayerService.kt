@@ -3,27 +3,51 @@ package fr.cpe.audioplayer.service
 import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Binder
 import android.os.IBinder
+import fr.cpe.audioplayer.model.AudioFile
+import fr.cpe.audioplayer.model.Playlist
 
 
 class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener,
     MediaPlayer.OnCompletionListener {
     private val binder: Binder = PlayerBinder()
-    private var mediaPlayer: MediaPlayer = MediaPlayer()
+    private val mediaPlayer: MediaPlayer = MediaPlayer()
+    private var playlist: Playlist? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
     }
 
-    fun play(path: String) {
-        mediaPlayer.setDataSource(path)
-        mediaPlayer.prepare()
+    fun play(list: Playlist) {
+        playlist = list
+        playFile(list.next())
+    }
+
+    fun resume() {
+        mediaPlayer.start()
     }
 
     fun pause() {
         mediaPlayer.pause()
+    }
+
+    fun prev() {
+        playlist?.let {
+            playFile(it.prev())
+        }
+    }
+
+    fun next() {
+        playlist?.let {
+            playFile(it.next())
+        }
+    }
+
+    private fun playFile(audioFile: AudioFile) {
+        mediaPlayer.reset()
+        mediaPlayer.setDataSource(audioFile.filePath)
+        mediaPlayer.prepareAsync()
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -47,6 +71,7 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
     }
 
     override fun onCompletion(player: MediaPlayer) {
+        playFile(playlist!!.next())
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {

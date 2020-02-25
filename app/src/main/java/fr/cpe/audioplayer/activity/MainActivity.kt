@@ -9,10 +9,12 @@ import android.os.IBinder
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.cpe.audioplayer.R
+import fr.cpe.audioplayer.factory.AudioFileFactory
 import fr.cpe.audioplayer.fragment.AudioFileListAdapter
 import fr.cpe.audioplayer.fragment.AudioFileListFragment
 import fr.cpe.audioplayer.fragment.TrackControlFragment
 import fr.cpe.audioplayer.model.AudioFile
+import fr.cpe.audioplayer.model.Playlist
 import fr.cpe.audioplayer.model.TrackAction
 import fr.cpe.audioplayer.service.PlayerService
 
@@ -70,22 +72,30 @@ class MainActivity : AppCompatActivity(), TrackControlFragment.OnTrackControlInt
             playing = true
         }
 
-        audioService?.play(audioFile.filePath)
+        val audioFiles = AudioFileFactory.getAudioFiles(this).toList()
+        val playlist = Playlist(audioFiles)
+        playlist.position = position
+
+        audioService?.play(playlist)
     }
 
     override fun onTrackControlInteraction(action: TrackAction) {
         when (action) {
             TrackAction.PLAY -> {
                 trackControl!!.playing = true
+
+                audioService?.resume()
             }
             TrackAction.PAUSE -> {
                 trackControl!!.playing = false
+
+                audioService?.pause()
             }
             TrackAction.PREV -> {
-
+                audioService?.prev()
             }
             TrackAction.NEXT -> {
-
+                audioService?.next()
             }
         }
     }
