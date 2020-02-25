@@ -7,7 +7,7 @@
 
         <variable
             name="track"
-            type="fr.cpe.audioplayer.viewmodel.AudioFileViewModel" />
+            type="fr.cpe.audioplayer.viewmodel.PlayingTrackViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,8 +43,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:contentDescription="@{track.present ? @string/pause_track_description : @string/play_track_description}"
-            android:src="@{track.present ? @drawable/ic_pause_24dp : @drawable/ic_play_arrow_24dp}"
+            android:contentDescription="@{track.playing ? @string/pause_track_description : @string/play_track_description}"
+            android:src="@{track.playing ? @drawable/ic_pause_24dp : @drawable/ic_play_arrow_24dp}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

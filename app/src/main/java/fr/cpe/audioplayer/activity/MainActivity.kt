@@ -92,10 +92,19 @@ class MainActivity : AppCompatActivity(), TrackControlFragment.OnTrackControlInt
                 audioService?.pause()
             }
             TrackAction.PREV -> {
-                audioService?.prev()
+                audioService?.let {
+                    trackControl!!.playing = it.prev()
+                }
             }
             TrackAction.NEXT -> {
-                audioService?.next()
+                audioService?.let {
+                    if (it.next()) {
+                        trackControl!!.playing = true
+                    } else {
+                        trackControl!!.playing = false
+                        it.stop()
+                    }
+                }
             }
         }
     }

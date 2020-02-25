@@ -32,16 +32,28 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
         mediaPlayer.pause()
     }
 
-    fun prev() {
-        playlist?.let {
-            playFile(it.prev())
-        }
+    fun stop() {
+        mediaPlayer.stop()
     }
 
-    fun next() {
+    fun prev(): Boolean {
         playlist?.let {
-            playFile(it.next())
+            playFile(it.prev())
+            return true
         }
+
+        return false
+    }
+
+    fun next(): Boolean {
+        playlist?.let {
+            if (it.hasNext()) {
+                playFile(it.next())
+                return true
+            }
+        }
+
+        return false
     }
 
     private fun playFile(audioFile: AudioFile) {

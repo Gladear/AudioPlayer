@@ -12,7 +12,7 @@ import fr.cpe.audioplayer.R
 import fr.cpe.audioplayer.databinding.FragmentTrackControlBinding
 import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.model.TrackAction
-import fr.cpe.audioplayer.viewmodel.AudioFileViewModel
+import fr.cpe.audioplayer.viewmodel.PlayingTrackViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -24,12 +24,17 @@ class TrackControlFragment : Fragment() {
     private var binding: FragmentTrackControlBinding? = null
     private var listener: OnTrackControlInteractionListener? = null
 
-    var track: AudioFile? = null
+    var track: AudioFile?
+        get() = binding!!.track!!.audioFile
         set(value) {
-            field = value
             binding!!.track!!.audioFile = value
         }
-    var playing = false
+
+    var playing: Boolean
+        get() = binding!!.track!!.playing
+        set(value) {
+            binding!!.track!!.playing = value
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +43,7 @@ class TrackControlFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_track_control, container, false)
-        binding!!.track = AudioFileViewModel()
+        binding!!.track = PlayingTrackViewModel()
 
         val view = binding!!.frameLayout
 
