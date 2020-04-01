@@ -2,7 +2,6 @@ package fr.cpe.audioplayer.fragment
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,8 +15,10 @@ import fr.cpe.audioplayer.R
 import fr.cpe.audioplayer.activity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
 import fr.cpe.audioplayer.databinding.FragmentAudioFileListBinding
 import fr.cpe.audioplayer.factory.AudioFileFactory
+import fr.cpe.audioplayer.model.AudioFile
+import fr.cpe.audioplayer.model.Playlist
 
-class AudioFileListFragment : Fragment() {
+class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileInteractionListener {
     private val adapter = AudioFileListAdapter()
 
     override fun onCreateView(
@@ -36,19 +37,19 @@ class AudioFileListFragment : Fragment() {
         val audioFileList = binding.audioFileList
         audioFileList.layoutManager = LinearLayoutManager(binding.root.context)
         audioFileList.adapter = adapter
+        adapter.listener = this
 
         loadAudioFiles()
 
         return binding.root
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is AudioFileListAdapter.OnAudioFileInteractionListener) {
-            adapter.listener = context
-        } else {
-            throw RuntimeException("$context must implement AudioFileListAdapter.OnAudioFileInteractionListener")
-        }
+    override fun onAudioFileInteraction(position: Int, audioFile: AudioFile) {
+        val tracks = AudioFileFactory.getAudioFiles(context!!).toList()
+
+        Playlist.tracks = tracks
+        Playlist.position = position
+        Playlist.isPlaying = true
     }
 
     override fun onDetach() {

@@ -5,61 +5,19 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
+import androidx.databinding.Observable
 import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.model.Playlist
 
 
-class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener,
-    MediaPlayer.OnCompletionListener {
+class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener
+//    , MediaPlayer.OnCompletionListener
+{
     private val binder: Binder = PlayerBinder()
     private val mediaPlayer: MediaPlayer = MediaPlayer()
-    private var playlist: Playlist? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
-    }
-
-    fun play(list: Playlist) {
-        playlist = list
-        playFile(list.next())
-    }
-
-    fun resume() {
-        mediaPlayer.start()
-    }
-
-    fun pause() {
-        mediaPlayer.pause()
-    }
-
-    fun stop() {
-        mediaPlayer.stop()
-    }
-
-    fun prev(): Boolean {
-        playlist?.let {
-            playFile(it.prev())
-            return true
-        }
-
-        return false
-    }
-
-    fun next(): Boolean {
-        playlist?.let {
-            if (it.hasNext()) {
-                playFile(it.next())
-                return true
-            }
-        }
-
-        return false
-    }
-
-    private fun playFile(audioFile: AudioFile) {
-        mediaPlayer.reset()
-        mediaPlayer.setDataSource(audioFile.filePath)
-        mediaPlayer.prepareAsync()
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -68,7 +26,28 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
 
     override fun onCreate() {
         mediaPlayer.setOnPreparedListener(this)
-        mediaPlayer.setOnCompletionListener(this)
+//        mediaPlayer.setOnCompletionListener(this)
+
+        Playlist.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                when (propertyId) {
+                    Playlist.PROPERTY_CURRENT_TRACK -> {
+                        Playlist.currentTrack?.let {
+                            playFile(it)
+                        } ?: run {
+                            pause()
+                        }
+                    }
+                    Playlist.PROPERTY_PLAYING -> {
+                        if (Playlist.isPlaying) {
+                            resume()
+                        } else {
+                            pause()
+                        }
+                    }
+                }
+            }
+        })
     }
 
     override fun onDestroy() {
@@ -79,15 +58,31 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
     }
 
     override fun onPrepared(player: MediaPlayer) {
-        mediaPlayer.start()
+        if (Playlist.isPlaying) {
+            mediaPlayer.start()
+        }
     }
 
-    override fun onCompletion(player: MediaPlayer) {
-        playFile(playlist!!.next())
-    }
+//    override fun onCompletion(player: MediaPlayer) {
+//        Playlist.next()
+//    }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
         return false
+    }
+
+    private fun pause() {
+        mediaPlayer.pause()
+    }
+
+    private fun resume() {
+        mediaPlayer.start()
+    }
+
+    private fun playFile(audioFile: AudioFile) {
+        mediaPlayer.reset()
+        mediaPlayer.setDataSource(audioFile.filePath)
+        mediaPlayer.prepareAsync()
     }
 
     inner class PlayerBinder : Binder() {

@@ -11,9 +11,6 @@ class AudioFileViewModel : BaseObservable() {
             notifyChange()
         }
 
-    val present: Boolean
-        get() = audioFile != null
-
     val artist: String
         @Bindable
         get() = audioFile?.artist ?: ""

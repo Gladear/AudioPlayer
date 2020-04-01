@@ -36,8 +36,8 @@ class AudioFileFactory {
                         val audioFile = AudioFile(
                             filepath,
                             title,
-                            album,
-                            artist
+                            album ?: "",
+                            artist ?: ""
                         )
 
                         cache!!.add(audioFile)

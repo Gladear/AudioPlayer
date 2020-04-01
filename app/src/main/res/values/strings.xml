@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AudioPlayer</string>
 
+    <!-- General -->
+    <string name="empty_string"></string>
+
     <!-- # Dialogs -->
     <!-- ## Permissions -->
     <string name="dialog_permission_read_external_storage">The application requires the permission to read files in your SD card. This allows us to get the musics from your phone !</string>

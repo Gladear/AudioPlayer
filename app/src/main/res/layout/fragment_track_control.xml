@@ -16,6 +16,17 @@
         android:layout_height="match_parent"
         tools:context=".fragment.TrackControlFragment">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{track.present ? track.displayName : @string/empty_string}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageButton
             android:id="@+id/next_track"
             android:layout_width="wrap_content"
@@ -25,7 +36,7 @@
             android:src="@drawable/ic_skip_next_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/play_pause_track"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <ImageButton
             android:id="@+id/previous_track"
@@ -36,7 +47,7 @@
             android:src="@drawable/ic_skip_previous_24dp"
             app:layout_constraintEnd_toStartOf="@+id/play_pause_track"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <ImageButton
             android:id="@+id/play_pause_track"
@@ -47,7 +58,7 @@
             android:src="@{track.playing ? @drawable/ic_pause_24dp : @drawable/ic_play_arrow_24dp}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
