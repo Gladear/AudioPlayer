@@ -22,14 +22,15 @@ class AudioFileFactory {
         //  https://ws.audioscrobbler.com/2.0/?method=track.getinfo&track=money&artist=pink%20floyd&api_key=9827a7f23811360556bb3ea33f67e949&format=json
 
         fun getAudioFiles(context: Context): Sequence<AudioFile> {
-            if (cache != null) {
-                return cache!!.asSequence()
+            cache?.let {
+                return it.asSequence()
             }
 
             val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
             val projection = arrayOf(
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.ARTIST
             )
@@ -42,13 +43,14 @@ class AudioFileFactory {
 
                     while (it.moveToNext()) {
                         val filepath = it.getString(0)
-                        val title = it.getString(1)
-                        val album = it.getString(2)
-                        val artist = it.getString(3)
+                        val displayName = it.getString(1)
+                        val title = it.getString(2)
+                        val album = it.getString(3)
+                        val artist = it.getString(4)
 
                         val audioFile = AudioFile(
                             filepath,
-                            title,
+                            title ?: displayName,
                             album ?: "",
                             artist ?: ""
                         )
