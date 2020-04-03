@@ -9,9 +9,12 @@ import android.os.IBinder
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.cpe.audioplayer.R
+import fr.cpe.audioplayer.factory.AudioFileFactory
 import fr.cpe.audioplayer.fragment.AudioFileListFragment
 import fr.cpe.audioplayer.fragment.TrackControlFragment
+import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.service.PlayerService
+import org.json.JSONObject
 
 const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
@@ -20,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
-
         // Display the fragments
         val transaction = supportFragmentManager.beginTransaction()
 

@@ -17,6 +17,7 @@ import fr.cpe.audioplayer.databinding.FragmentAudioFileListBinding
 import fr.cpe.audioplayer.factory.AudioFileFactory
 import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.model.Playlist
+import kotlin.concurrent.thread
 
 class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileInteractionListener {
     private val adapter = AudioFileListAdapter()
@@ -101,6 +102,13 @@ class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileIntera
 
             for (audioFile in audioFiles) {
                 adapter.add(audioFile)
+            }
+            thread(start = true)
+            {
+                for ((index, audioFile) in audioFiles.withIndex()) {
+                    AudioFileFactory.getDetailsAudioFile(audioFile)
+                    activity!!.runOnUiThread { adapter.notifyItemChanged(index) }
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 package fr.cpe.audioplayer
 
+import fr.cpe.audioplayer.factory.AudioFileFactory
+import fr.cpe.audioplayer.model.AudioFile
 import org.junit.Test
 
 import org.junit.Assert.*

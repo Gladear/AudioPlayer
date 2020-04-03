@@ -6,10 +6,9 @@ data class AudioFile(
     val filePath: String,
     val title: String,
     val artist: String,
-    val album: String,
-    val duration: Int = 0,
-    val genre: String = "",
-    val year: Int = 0
+    var album: String,
+    var duration: Int = 0,
+    var genre: String = ""
 
 ) {
     val durationText: String
