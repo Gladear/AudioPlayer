@@ -9,24 +9,12 @@ import android.os.IBinder
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.cpe.audioplayer.R
-import fr.cpe.audioplayer.fragment.AudioFileListFragment
-import fr.cpe.audioplayer.fragment.TrackControlFragment
 import fr.cpe.audioplayer.service.PlayerService
-
-const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_main)
-
-        // Display the fragments
-        val transaction = supportFragmentManager.beginTransaction()
-
-        transaction.replace(R.id.audio_list_fragment_container, AudioFileListFragment())
-        transaction.replace(R.id.track_control_fragment_container, TrackControlFragment())
-        transaction.commit()
 
         val bound = bindService(
             Intent(this, PlayerService::class.java),

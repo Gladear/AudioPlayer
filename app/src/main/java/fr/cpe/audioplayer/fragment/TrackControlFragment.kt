@@ -1,5 +1,6 @@
 package fr.cpe.audioplayer.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import fr.cpe.audioplayer.R
+import fr.cpe.audioplayer.activity.CurrentTrackActivity
 import fr.cpe.audioplayer.databinding.FragmentTrackControlBinding
-import fr.cpe.audioplayer.model.Playlist
-import fr.cpe.audioplayer.viewmodel.PlayingTrackViewModel
+import fr.cpe.audioplayer.viewmodel.PlaylistViewModel
 
 class TrackControlFragment : Fragment() {
     override fun onCreateView(
@@ -21,14 +22,14 @@ class TrackControlFragment : Fragment() {
         val binding: FragmentTrackControlBinding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_track_control, container, false)
 
-        Playlist.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+        PlaylistViewModel.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 when (propertyId) {
-                    Playlist.PROPERTY_CURRENT_TRACK -> {
-                        binding.track!!.audioFile = Playlist.currentTrack
+                    PlaylistViewModel.PROPERTY_CURRENT_TRACK -> {
+                        binding.track!!.audioFile = PlaylistViewModel.currentTrack
                     }
-                    Playlist.PROPERTY_PLAYING -> {
-                        binding.track!!.isPlaying = Playlist.isPlaying
+                    PlaylistViewModel.PROPERTY_PLAYING -> {
+                        binding.track!!.isPlaying = PlaylistViewModel.isPlaying
                     }
                 }
             }
@@ -36,26 +37,26 @@ class TrackControlFragment : Fragment() {
 
         // Add listeners to buttons
         binding.apply {
-            track = PlayingTrackViewModel()
+            track = PlaylistViewModel.currentTrackViewModel
+
+            playPauseTrack.setOnClickListener {
+                PlaylistViewModel.togglePlay()
+            }
 
             previousTrack.setOnClickListener {
-                Playlist.prev()
+                PlaylistViewModel.prev()
             }
 
             nextTrack.setOnClickListener {
-                Playlist.next()
+                PlaylistViewModel.next()
             }
 
-            playPauseTrack.setOnClickListener {
-                if (Playlist.isPlaying) {
-                    Playlist.pause()
-                } else {
-                    Playlist.resume()
-                }
+            trackControlRoot.setOnClickListener {
+                val intent = Intent(activity!!, CurrentTrackActivity::class.java)
+                startActivity(intent)
             }
 
-            return frameLayout
+            return trackControlRoot
         }
-
     }
 }
