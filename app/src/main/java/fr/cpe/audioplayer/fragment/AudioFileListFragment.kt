@@ -107,7 +107,7 @@ class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileIntera
 
             thread(start = true) {
                 for ((index, audioFile) in audioFiles.withIndex()) {
-                    AudioFileFactory.getDetailsAudioFile(audioFile)
+                    AudioFileFactory.getDetailsAudioFile(context!!,audioFile)
                     activity!!.runOnUiThread { adapter.notifyItemChanged(index) }
                 }
             }

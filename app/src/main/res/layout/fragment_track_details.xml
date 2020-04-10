@@ -26,7 +26,7 @@
             android:layout_marginBottom="32dp"
             android:background="#F0F0F0"
             android:contentDescription="@string/album_cover_description"
-            android:src="@drawable/ic_equalizer_grey_24dp"
+            android:src="@{track.audioFile.image != null ? track.audioFile.image : @drawable/ic_equalizer_grey_24dp}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
