@@ -3,7 +3,8 @@ package fr.cpe.audioplayer.utils
 import java.util.*
 
 object TimeFormatter {
-    fun formatDuration(duration: Int): String {
+    fun formatDuration(millis: Int): String {
+        val duration = millis / 1000
         val seconds = duration % 60
         val durationInMinutes = duration / 60
         val minutes = durationInMinutes % 60

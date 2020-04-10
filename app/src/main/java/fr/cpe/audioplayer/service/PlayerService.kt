@@ -4,11 +4,11 @@ import android.app.Service
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Binder
+import android.os.CountDownTimer
 import android.os.IBinder
 import androidx.databinding.Observable
 import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.viewmodel.PlaylistViewModel
-import java.util.*
 
 
 class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener
@@ -66,12 +66,21 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
             mediaPlayer.start()
 
             val duration = mediaPlayer.duration
-            val updateInterval = duration / 100L
-            Timer().schedule(object : TimerTask() {
-                override fun run() {
+
+            viewModel.audioFile?.duration = duration
+
+            val timer = object : CountDownTimer(duration.toLong(), 1000L) {
+                override fun onFinish() {
+                    // Move to next song
+                    // Workaround while onCompletionListener doesn't work
+                    PlaylistViewModel.next()
+                }
+
+                override fun onTick(millisUntilFinished: Long) {
                     viewModel.currentPosition = mediaPlayer.currentPosition
                 }
-            }, updateInterval)
+            }
+            timer.start()
         }
     }
 
