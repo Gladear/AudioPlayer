@@ -99,13 +99,13 @@ class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileIntera
             // Permission has already been granted
             // Do file-related operations
 
-            val audioFiles = AudioFileFactory.getAudioFiles(context!!)
-
-            for (audioFile in audioFiles) {
-                adapter.add(audioFile)
-            }
-
             thread(start = true) {
+                val audioFiles = AudioFileFactory.getAudioFiles(context!!)
+
+                for (audioFile in audioFiles) {
+                    adapter.add(audioFile)
+                }
+
                 for ((index, audioFile) in audioFiles.withIndex()) {
                     AudioFileFactory.getDetailsAudioFile(context!!,audioFile)
                     activity!!.runOnUiThread { adapter.notifyItemChanged(index) }

@@ -32,7 +32,7 @@ object PlaylistViewModel : BaseObservable() {
         @Bindable
         get() = if (position < 0) null else tracks[position]
 
-    val currentTrackViewModel: CurrentTrackViewModel = CurrentTrackViewModel()
+    val currentTrackViewModel = CurrentTrackViewModel()
 
     fun pause() {
         isPlaying = false
