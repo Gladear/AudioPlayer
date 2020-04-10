@@ -62,13 +62,33 @@
             android:id="@+id/play_pause_track"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@{track.playing ? @string/pause_track_description : @string/play_track_description}"
             android:src="@{track.playing ? @drawable/ic_pause_24dp : @drawable/ic_play_arrow_24dp}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/track_title" />
+
+        <ImageButton
+            android:id="@+id/previous_track"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/previous_track_description"
+            android:src="@drawable/ic_skip_previous_24dp"
+            app:layout_constraintEnd_toStartOf="@+id/play_pause_track"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/track_title" />
+
+        <ImageButton
+            android:id="@+id/next_track"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/next_track_description"
+            android:src="@drawable/ic_skip_next_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/play_pause_track"
             app:layout_constraintTop_toBottomOf="@+id/track_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

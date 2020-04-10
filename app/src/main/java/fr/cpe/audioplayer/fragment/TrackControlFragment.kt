@@ -43,6 +43,14 @@ class TrackControlFragment : Fragment() {
                 PlaylistViewModel.togglePlay()
             }
 
+            previousTrack.setOnClickListener {
+                PlaylistViewModel.prev()
+            }
+
+            nextTrack.setOnClickListener {
+                PlaylistViewModel.next()
+            }
+
             trackControlRoot.setOnClickListener {
                 val intent = Intent(activity!!, CurrentTrackActivity::class.java)
                 startActivity(intent)
