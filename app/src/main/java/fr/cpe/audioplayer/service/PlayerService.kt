@@ -7,7 +7,8 @@ import android.os.Binder
 import android.os.IBinder
 import androidx.databinding.Observable
 import fr.cpe.audioplayer.model.AudioFile
-import fr.cpe.audioplayer.model.Playlist
+import fr.cpe.audioplayer.viewmodel.PlaylistViewModel
+import java.util.*
 
 
 class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPreparedListener
@@ -28,18 +29,19 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
         mediaPlayer.setOnPreparedListener(this)
 //        mediaPlayer.setOnCompletionListener(this)
 
-        Playlist.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+        PlaylistViewModel.addOnPropertyChangedCallback(object :
+            Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 when (propertyId) {
-                    Playlist.PROPERTY_CURRENT_TRACK -> {
-                        Playlist.currentTrack?.let {
+                    PlaylistViewModel.PROPERTY_CURRENT_TRACK -> {
+                        PlaylistViewModel.currentTrack?.let {
                             playFile(it)
                         } ?: run {
                             pause()
                         }
                     }
-                    Playlist.PROPERTY_PLAYING -> {
-                        if (Playlist.isPlaying) {
+                    PlaylistViewModel.PROPERTY_PLAYING -> {
+                        if (PlaylistViewModel.isPlaying) {
                             resume()
                         } else {
                             pause()
@@ -58,13 +60,23 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
     }
 
     override fun onPrepared(player: MediaPlayer) {
-        if (Playlist.isPlaying) {
+        val viewModel = PlaylistViewModel.currentTrackViewModel
+
+        if (PlaylistViewModel.isPlaying) {
             mediaPlayer.start()
+
+            val duration = mediaPlayer.duration
+            val updateInterval = duration / 100L
+            Timer().schedule(object : TimerTask() {
+                override fun run() {
+                    viewModel.currentPosition = mediaPlayer.currentPosition
+                }
+            }, updateInterval)
         }
     }
 
 //    override fun onCompletion(player: MediaPlayer) {
-//        Playlist.next()
+//        PlaylistViewModel.next()
 //    }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {

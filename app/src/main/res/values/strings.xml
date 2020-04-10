@@ -19,4 +19,7 @@
     <string name="pause_track_description">Pause</string>
     <string name="play_track_description">Play</string>
     <string name="next_track_description">Next</string>
+
+    <!-- ## Playing track fragment -->
+    <string name="album_cover_description">Album cover</string>
 </resources>

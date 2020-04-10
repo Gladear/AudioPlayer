@@ -1,9 +1,10 @@
-package fr.cpe.audioplayer.model
+package fr.cpe.audioplayer.viewmodel
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
+import fr.cpe.audioplayer.model.AudioFile
 
-object Playlist : BaseObservable() {
+object PlaylistViewModel : BaseObservable() {
     const val PROPERTY_CURRENT_TRACK = 1
     const val PROPERTY_TRACKS = 2
     const val PROPERTY_PLAYING = 3
@@ -31,12 +32,22 @@ object Playlist : BaseObservable() {
         @Bindable
         get() = if (position < 0) null else tracks[position]
 
+    val currentTrackViewModel: CurrentTrackViewModel = CurrentTrackViewModel()
+
     fun pause() {
         isPlaying = false
     }
 
     fun resume() {
         isPlaying = true
+    }
+
+    fun togglePlay() {
+        if (isPlaying) {
+            pause()
+        } else {
+            resume()
+        }
     }
 
     fun prev() {

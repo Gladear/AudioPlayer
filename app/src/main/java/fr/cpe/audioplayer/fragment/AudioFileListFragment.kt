@@ -12,14 +12,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import fr.cpe.audioplayer.R
-import fr.cpe.audioplayer.activity.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE
 import fr.cpe.audioplayer.databinding.FragmentAudioFileListBinding
 import fr.cpe.audioplayer.factory.AudioFileFactory
 import fr.cpe.audioplayer.model.AudioFile
-import fr.cpe.audioplayer.model.Playlist
+import fr.cpe.audioplayer.viewmodel.PlaylistViewModel
 import kotlin.concurrent.thread
 
 class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileInteractionListener {
+    private val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
+
     private val adapter = AudioFileListAdapter()
 
     override fun onCreateView(
@@ -48,9 +49,9 @@ class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileIntera
     override fun onAudioFileInteraction(position: Int, audioFile: AudioFile) {
         val tracks = AudioFileFactory.getAudioFiles(context!!).toList()
 
-        Playlist.tracks = tracks
-        Playlist.position = position
-        Playlist.isPlaying = true
+        PlaylistViewModel.tracks = tracks
+        PlaylistViewModel.position = position
+        PlaylistViewModel.isPlaying = true
     }
 
     override fun onDetach() {
@@ -103,8 +104,8 @@ class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileIntera
             for (audioFile in audioFiles) {
                 adapter.add(audioFile)
             }
-            thread(start = true)
-            {
+
+            thread(start = true) {
                 for ((index, audioFile) in audioFiles.withIndex()) {
                     AudioFileFactory.getDetailsAudioFile(audioFile)
                     activity!!.runOnUiThread { adapter.notifyItemChanged(index) }

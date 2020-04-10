@@ -16,8 +16,6 @@ import fr.cpe.audioplayer.model.AudioFile
 import fr.cpe.audioplayer.service.PlayerService
 import org.json.JSONObject
 
-const val MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
