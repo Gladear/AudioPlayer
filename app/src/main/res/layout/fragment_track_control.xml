@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="track"
             type="fr.cpe.audioplayer.viewmodel.CurrentTrackViewModel" />
@@ -13,7 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/track_control_root"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/track_control_bar_height"
+        android:visibility="@{track.present ? View.VISIBLE : View.GONE}"
         tools:context=".fragment.TrackControlFragment">
 
         <SeekBar
