@@ -16,6 +16,7 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
 {
     private val binder: Binder = PlayerBinder()
     private val mediaPlayer: MediaPlayer = MediaPlayer()
+    private var timer: CountDownTimer? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return START_STICKY
@@ -64,23 +65,8 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
 
         if (PlaylistViewModel.isPlaying) {
             mediaPlayer.start()
-
-            val duration = mediaPlayer.duration
-
-            viewModel.audioFile?.duration = duration
-
-            val timer = object : CountDownTimer(duration.toLong(), 1000L) {
-                override fun onFinish() {
-                    // Move to next song
-                    // Workaround while onCompletionListener doesn't work
-                    PlaylistViewModel.next()
-                }
-
-                override fun onTick(millisUntilFinished: Long) {
-                    viewModel.currentPosition = mediaPlayer.currentPosition
-                }
-            }
-            timer.start()
+            viewModel.audioFile?.duration = mediaPlayer.duration
+            startTimer()
         }
     }
 
@@ -94,10 +80,32 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
 
     private fun pause() {
         mediaPlayer.pause()
+        timer?.cancel()
     }
 
     private fun resume() {
         mediaPlayer.start()
+        startTimer()
+    }
+
+    private fun startTimer() {
+        val viewModel = PlaylistViewModel.currentTrackViewModel
+
+        timer = object :
+            CountDownTimer((mediaPlayer.duration - mediaPlayer.currentPosition).toLong(), 1000L) {
+            override fun onFinish() {
+                // Move to next song
+                // Workaround while onCompletionListener doesn't work
+                PlaylistViewModel.next()
+            }
+
+            override fun onTick(millisUntilFinished: Long) {
+                if (PlaylistViewModel.isPlaying) {
+                    viewModel.currentPosition = mediaPlayer.currentPosition
+                }
+            }
+        }
+        timer!!.start()
     }
 
     private fun playFile(audioFile: AudioFile) {
