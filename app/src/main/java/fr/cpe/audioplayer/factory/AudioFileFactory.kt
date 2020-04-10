@@ -1,15 +1,20 @@
 package fr.cpe.audioplayer.factory
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.provider.MediaStore
 import fr.cpe.audioplayer.model.AudioFile
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.IOException
+import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+
 
 class AudioFileFactory {
     companion object {
@@ -17,17 +22,17 @@ class AudioFileFactory {
 
         private var key = "9827a7f23811360556bb3ea33f67e949"
 
-        private var lastfmapi =
-            "https://ws.audioscrobbler.com/2.0/?method=track.getinfo&track=YOUR_TITLE&artist=YOUR_ARTIST&api_key=YOUR_API_KEY&format=json"
+
         //  https://ws.audioscrobbler.com/2.0/?method=track.getinfo&track=money&artist=pink%20floyd&api_key=9827a7f23811360556bb3ea33f67e949&format=json
 
-        fun getDetailsAudioFile(song: AudioFile): AudioFile {
+        fun getDetailsAudioFile(context: Context, song: AudioFile): AudioFile {
 
             try {
                 if (song.title == "" || song.artist == "") {
                     return song
                 }
-
+                var lastfmapi =
+                    "https://ws.audioscrobbler.com/2.0/?method=track.getinfo&track=YOUR_TITLE&artist=YOUR_ARTIST&api_key=YOUR_API_KEY&format=json"
                 lastfmapi = lastfmapi.replace("YOUR_TITLE", song.title)
                 lastfmapi = lastfmapi.replace("YOUR_ARTIST", song.artist)
                 lastfmapi = lastfmapi.replace("YOUR_API_KEY", key)
@@ -49,6 +54,15 @@ class AudioFileFactory {
                 song.genre = result.getJSONObject("toptags").getJSONArray("tag").getJSONObject(0)
                     .getString("name")
                 song.duration = result.getInt("duration")
+
+                val urldisplay: String =
+                    album.getJSONArray("image").getJSONObject(2).getString("#text")
+
+                val iss: InputStream = URL(urldisplay).openStream()
+                val img = BitmapFactory.decodeStream(iss)
+                song.image = BitmapDrawable(context.resources, img)
+
+
             } catch (e: IOException) {
 
             } catch (e: JSONException) {
