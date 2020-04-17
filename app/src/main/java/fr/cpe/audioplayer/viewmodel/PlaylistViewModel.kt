@@ -12,6 +12,11 @@ object PlaylistViewModel : BaseObservable() {
     var position = 0
         set(value) {
             field = value
+
+            if (position == -1) {
+                isPlaying = false
+            }
+
             notifyPropertyChanged(PROPERTY_CURRENT_TRACK)
         }
 
