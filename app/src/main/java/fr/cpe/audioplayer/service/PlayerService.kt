@@ -79,8 +79,10 @@ class PlayerService : Service(), MediaPlayer.OnErrorListener, MediaPlayer.OnPrep
     }
 
     private fun pause() {
-        mediaPlayer.pause()
-        timer?.cancel()
+        if (mediaPlayer.isPlaying) {
+            mediaPlayer.pause()
+            timer?.cancel()
+        }
     }
 
     private fun resume() {

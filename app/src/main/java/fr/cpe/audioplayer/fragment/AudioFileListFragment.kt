@@ -99,13 +99,13 @@ class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileIntera
             // Permission has already been granted
             // Do file-related operations
 
-            val audioFiles = AudioFileFactory.getAudioFiles(context!!)
-
-            for (audioFile in audioFiles) {
-                adapter.add(audioFile)
-            }
-
             thread(start = true) {
+                val audioFiles = AudioFileFactory.getAudioFiles(context!!)
+
+                for (audioFile in audioFiles) {
+                    adapter.add(audioFile)
+                }
+
                 for ((index, audioFile) in audioFiles.withIndex()) {
                     AudioFileFactory.getDetailsAudioFile(context!!,audioFile)
                     activity!!.runOnUiThread { adapter.notifyItemChanged(index) }
@@ -122,7 +122,7 @@ class AudioFileListFragment : Fragment(), AudioFileListAdapter.OnAudioFileIntera
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE -> {
                 // If request is cancelled, the result arrays are empty.
-                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // permission was granted, yay! Do the
                     // file-related task you need to do.
                     loadAudioFiles()

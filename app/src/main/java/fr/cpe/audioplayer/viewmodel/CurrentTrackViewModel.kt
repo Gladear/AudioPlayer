@@ -29,20 +29,12 @@ class CurrentTrackViewModel : BaseObservable() {
 
     var isPlaying = false
         set(value) {
-            if (audioFile == null) {
-                throw IllegalStateException("No audio track")
-            }
-
             field = value
             notifyChange()
         }
 
     var currentPosition = 0
         set(value) {
-            if (audioFile == null) {
-                throw IllegalStateException("No audio track")
-            }
-
             field = value
             notifyChange()
         }

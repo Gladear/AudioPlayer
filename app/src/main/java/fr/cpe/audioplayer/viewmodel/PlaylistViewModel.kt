@@ -12,6 +12,11 @@ object PlaylistViewModel : BaseObservable() {
     var position = 0
         set(value) {
             field = value
+
+            if (position == -1) {
+                isPlaying = false
+            }
+
             notifyPropertyChanged(PROPERTY_CURRENT_TRACK)
         }
 
@@ -32,7 +37,7 @@ object PlaylistViewModel : BaseObservable() {
         @Bindable
         get() = if (position < 0) null else tracks[position]
 
-    val currentTrackViewModel: CurrentTrackViewModel = CurrentTrackViewModel()
+    val currentTrackViewModel = CurrentTrackViewModel()
 
     fun pause() {
         isPlaying = false
